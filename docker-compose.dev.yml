@@ -1,0 +1,60 @@
+services:
+  frontend:
+    image: frontend-dev
+    build:
+      context: ./frontend/
+      network: host
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./frontend/:/usr/src/app
+    container_name: frontend-dev-1
+    networks:
+      custom-network:
+        ipv4_address: 10.2.0.3
+  backend:
+    image: backend-dev
+    build:
+      context: ./backend/
+      network: host
+      dockerfile: dev.Dockerfile
+    env_file:
+      - path: ./backend/.env-backend
+        required: true
+    volumes:
+      - ./backend/:/usr/src/backend
+    container_name: backend-dev-1
+    networks:
+      custom-network:
+        ipv4_address: 10.2.0.4
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    env_file:
+      - path: ./backend/.env-backend
+        required: true
+    volumes:
+      - ./backend/src/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./backend/mongo_data:/mongo/data
+    container_name: mongo
+    networks:
+      custom-network:
+        ipv4_address: 10.2.0.5
+  nginx:
+    image: nginx:1.25
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro # ro for read-only
+    ports:
+      - '8000:80'
+    container_name: reverse-proxy
+    networks:
+      custom-network:
+        ipv4_address: 10.2.0.2
+    depends_on:
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_started
+networks:
+  custom-network:
+    external: true

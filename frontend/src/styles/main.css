@@ -1,0 +1,58 @@
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: green;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.input-normal {
+  background: lightcyan;
+}
+
+.btn-normal {
+  border: 2px solid darkgoldenrod;
+  border-radius: 2px;
+  background: white;
+  color: grey;
+
+  &:hover {
+    background-color: lightgoldenrodyellow;
+    color: black;
+  }
+}
+
+.btn-red {
+  border: 2px solid brown;
+  border-radius: 2px;
+  background: lightcoral;
+  color: black;
+
+  &:hover {
+    background-color: lightyellow;
+  }
+}
+
+.blog-style {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.blog-layout {
+  padding: 2px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
